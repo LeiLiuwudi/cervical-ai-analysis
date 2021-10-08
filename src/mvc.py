@@ -1,15 +1,20 @@
+import json
+
 import pymysql
-from flask import Flask, request
+from flask import Flask, request, Response, make_response, jsonify
 from flask_cors import *
 
 from cosine import cosine
 
 app = Flask(__name__)
 
+
 @app.route('/similarRecord', methods=["POST"])
 @cross_origin()
 def similarRecord():
-    id = request.form.get("id")
+    # id = request.form.get("id")
+    data = json.loads(request.get_data(as_text=True))
+    id = data["id"]
     print(request)
     print(id)
     # 打开数据库连接
@@ -25,8 +30,16 @@ def similarRecord():
     docs = []
     for each in docs_data:
         docs.append(each[0] + "," + each[1] + "," + each[2])
-    return {"id": docs_data[cosine(docs, base)][3]}
+    result = {
+        "id": docs_data[cosine(docs, base)][3],
+        "name": "liulei"
+    }
+    resp = make_response(jsonify(result))
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return resp
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")
