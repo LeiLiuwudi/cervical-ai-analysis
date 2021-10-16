@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>_05杜爱荣__20170607.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\_05杜爱荣__20170607.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>112</xmin>
+			<ymin>71</ymin>
+			<xmax>169</xmax>
+			<ymax>100</ymax>
+		</bndbox>
+	</object>
+</annotation>

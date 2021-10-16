@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>每天运动3小时以上_07小时以上_20170606.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\每天运动3小时以上_07小时以上_20170606.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>80</xmin>
+			<ymin>74</ymin>
+			<xmax>141</xmax>
+			<ymax>110</ymax>
+		</bndbox>
+	</object>
+</annotation>

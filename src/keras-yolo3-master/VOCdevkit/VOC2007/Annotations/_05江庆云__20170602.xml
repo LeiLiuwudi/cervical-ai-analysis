@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>_05江庆云__20170602.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\_05江庆云__20170602.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>105</xmin>
+			<ymin>66</ymin>
+			<xmax>156</xmax>
+			<ymax>96</ymax>
+		</bndbox>
+	</object>
+</annotation>

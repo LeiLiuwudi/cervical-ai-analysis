@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>昨天喝酒_02昨天喝酒_20170606.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\昨天喝酒_02昨天喝酒_20170606.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>103</xmin>
+			<ymin>88</ymin>
+			<xmax>164</xmax>
+			<ymax>119</ymax>
+		</bndbox>
+	</object>
+</annotation>

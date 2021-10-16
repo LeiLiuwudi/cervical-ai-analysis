@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>洗发液过敏_05发液过敏_20170606.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\洗发液过敏_05发液过敏_20170606.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>98</xmin>
+			<ymin>67</ymin>
+			<xmax>161</xmax>
+			<ymax>100</ymax>
+		</bndbox>
+	</object>
+</annotation>

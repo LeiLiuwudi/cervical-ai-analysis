@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>_04熊国安__20170601.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\_04熊国安__20170601.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>70</xmin>
+			<ymin>81</ymin>
+			<xmax>123</xmax>
+			<ymax>122</ymax>
+		</bndbox>
+	</object>
+</annotation>

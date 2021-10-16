@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>饭后，烟 酒 脚气_01酒 脚气_20170531.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\饭后，烟 酒 脚气_01酒 脚气_20170531.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>96</xmin>
+			<ymin>88</ymin>
+			<xmax>172</xmax>
+			<ymax>119</ymax>
+		</bndbox>
+	</object>
+</annotation>

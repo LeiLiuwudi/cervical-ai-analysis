@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>_01余白南__20170601.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\_01余白南__20170601.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>106</xmin>
+			<ymin>85</ymin>
+			<xmax>156</xmax>
+			<ymax>111</ymax>
+		</bndbox>
+	</object>
+</annotation>

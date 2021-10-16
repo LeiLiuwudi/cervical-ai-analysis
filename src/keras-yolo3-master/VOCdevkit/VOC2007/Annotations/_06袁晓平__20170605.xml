@@ -1,0 +1,26 @@
+<annotation>
+	<folder>JPEGImages</folder>
+	<filename>_06袁晓平__20170605.jpg</filename>
+	<path>E:\graduationProject\dataset\JPEGImages\_06袁晓平__20170605.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>256</width>
+		<height>324</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>neck</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>80</xmin>
+			<ymin>79</ymin>
+			<xmax>147</xmax>
+			<ymax>108</ymax>
+		</bndbox>
+	</object>
+</annotation>
