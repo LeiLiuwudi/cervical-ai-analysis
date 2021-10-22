@@ -8,10 +8,12 @@ import os
 from timeit import default_timer as timer
 
 import numpy as np
+from cv2 import cv2
 from keras import backend as K
 from keras.models import load_model
 from keras.layers import Input
 from PIL import Image, ImageFont, ImageDraw
+import matplotlib.pyplot as plt
 
 from yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
 from yolo3.utils import letterbox_image
@@ -165,7 +167,7 @@ class YOLO(object):
 
         end = timer()
         print(end - start)
-        return image1
+        return image1, out_boxes[0]
 
     def close_session(self):
         self.sess.close()
@@ -214,14 +216,61 @@ class YOLO(object):
 
 if __name__ == '__main__':
     yolo = YOLO()
-    path = 'E:/graduationProject/keras-yolo3-master/VOCdevkit/VOC2007/JPEGImages/_01肖运才__20170605.jpg'
+    path = 'C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg'
     try:
         image = Image.open(path)
+        uncroped_image = cv2.imread("C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg")
         print(image)
     except:
         print('Open Error! Try again!')
     else:
-        r_image = yolo.detect_image(image)
+        r_image, box = yolo.detect_image(image)
         r_image.show()
+        top = box[0]
+        left = box[1]
+        bottom = box[2]
+        right = box[3]
+
+        top = top - 5
+        left = left - 5
+        bottom = bottom + 5
+        right = right + 5
+
+        # 左上角点的坐标
+        top = int(max(0, np.floor(top + 0.5).astype('int32')))
+
+        left = int(max(0, np.floor(left + 0.5).astype('int32')))
+        # 右下角点的坐标
+        bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
+        right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
+
+        # embed()
+
+
+        # 指定裁剪的目标范围
+        croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+        cut_image = Image.fromarray(cv2.cvtColor(croped_region, cv2.COLOR_BGR2RGB))
+        cut_image.show()
+
+        # 均值滤波
+        img_mean = cv2.blur(croped_region, (3, 3))
+
+        # 高斯滤波
+        img_Guassian = cv2.GaussianBlur(croped_region, (3, 3), 0)
+
+        # 中值滤波
+        img_median = cv2.medianBlur(croped_region, 5)
+
+        # 双边滤波
+        img_bilater = cv2.bilateralFilter(croped_region, 9, 75, 75)
+
+        # 展示不同的图片
+        titles = ['srcImg', 'mean', 'Gaussian', 'median', 'bilateral']
+        imgs = [croped_region, img_mean, img_Guassian, img_median, img_bilater]
+
+        for i in range(5):
+            img = Image.fromarray(cv2.cvtColor(imgs[i], cv2.COLOR_BGR2RGB))
+            img.show()
+
 
     yolo.close_session()
