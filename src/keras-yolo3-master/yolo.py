@@ -4,8 +4,14 @@ Class definition of YOLO_v3 style detection model on image and video
 """
 
 import colorsys
+import math
 import os
+
+from sklearn.externals import joblib
+
+from file import findAllFile
 from timeit import default_timer as timer
+from mse import mse
 
 import numpy as np
 from cv2 import cv2
@@ -14,6 +20,7 @@ from keras.models import load_model
 from keras.layers import Input
 from PIL import Image, ImageFont, ImageDraw
 import matplotlib.pyplot as plt
+from five_classification import train
 
 from yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
 from yolo3.utils import letterbox_image
@@ -124,7 +131,7 @@ class YOLO(object):
             feed_dict={
                 self.yolo_model.input: image_data,
                 self.input_image_shape: [image1.size[1], image1.size[0]],
-                K.learning_phase(): 0
+                # K.learning_phase(): 0
             })
 
         print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
@@ -173,6 +180,46 @@ class YOLO(object):
         self.sess.close()
 
 
+def predict(path, yolo):
+    file_path = 'E:\\infraFile\\' + path
+    image = Image.open(file_path)
+    uncroped_image = cv2.imread(file_path)
+    r_image, box = yolo.detect_image(image)
+    top = box[0]
+    left = box[1]
+    bottom = box[2]
+    right = box[3]
+
+    top = top - 5
+    left = left - 5
+    bottom = bottom + 5
+    right = right + 5
+
+    # 左上角点的坐标
+    top = int(max(0, np.floor(top + 0.5).astype('int32')))
+
+    left = int(max(0, np.floor(left + 0.5).astype('int32')))
+    # 右下角点的坐标
+    bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
+    right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
+    croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+    grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
+    hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
+    seq = []
+    for e in hist:
+        seq.append(e[0])
+    model = joblib.load('logs/model.pkl')
+    one_d_array = np.array(mse(seq, 2, 0.15, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))
+    for i in range(len(one_d_array)):
+        if math.isinf(one_d_array[i]) or math.isnan(one_d_array[i]):
+            one_d_array[i] = 0.333
+    two_d_array = []
+    two_d_array.append(one_d_array)
+    result = model.predict(two_d_array)
+    print(result)
+    return result[0]
+
+
 # def detect_video(yolo, video_path, output_path=""):
 #     import cv2
 #     vid = cv2.VideoCapture(video_path)
@@ -216,16 +263,14 @@ class YOLO(object):
 
 if __name__ == '__main__':
     yolo = YOLO()
-    path = 'C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg'
-    try:
-        image = Image.open(path)
-        uncroped_image = cv2.imread("C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg")
-        print(image)
-    except:
-        print('Open Error! Try again!')
-    else:
+    base = 'E:\\graduationProject\\VGG16_TF-master\\data\\dataset\\all'
+    allFile = findAllFile(base)
+    X = []
+    for each in allFile:
+        complete_path = base + '\\' + each
+        image = Image.open(complete_path)
+        uncroped_image = cv2.imread(complete_path)
         r_image, box = yolo.detect_image(image)
-        r_image.show()
         top = box[0]
         left = box[1]
         bottom = box[2]
@@ -243,34 +288,95 @@ if __name__ == '__main__':
         # 右下角点的坐标
         bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
         right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
-
-        # embed()
-
-
-        # 指定裁剪的目标范围
         croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
-        cut_image = Image.fromarray(cv2.cvtColor(croped_region, cv2.COLOR_BGR2RGB))
-        cut_image.show()
+        grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
+        hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
+        seq = []
+        for e in hist:
+            seq.append(e[0])
+        X.append(mse(seq, 2, 0.15, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))
+    X = np.array(X)
+    row = X.shape[0]
+    col = X.shape[1]
+    for i in range(row):
+        for j in range(col):
+            if math.isinf(X[i][j]) or math.isnan(X[i][j]):
+                X[i][j] = 0.333
 
-        # 均值滤波
-        img_mean = cv2.blur(croped_region, (3, 3))
+    Y = []
+    for i in range(20):
+        Y.append(0)
+    for i in range(174):
+        Y.append(1)
+    for i in range(173):
+        Y.append(2)
+    for i in range(10):
+        Y.append(3)
+    for i in range(48):
+        Y.append(4)
+    train(X, np.array(Y))
 
-        # 高斯滤波
-        img_Guassian = cv2.GaussianBlur(croped_region, (3, 3), 0)
-
-        # 中值滤波
-        img_median = cv2.medianBlur(croped_region, 5)
-
-        # 双边滤波
-        img_bilater = cv2.bilateralFilter(croped_region, 9, 75, 75)
-
-        # 展示不同的图片
-        titles = ['srcImg', 'mean', 'Gaussian', 'median', 'bilateral']
-        imgs = [croped_region, img_mean, img_Guassian, img_median, img_bilater]
-
-        for i in range(5):
-            img = Image.fromarray(cv2.cvtColor(imgs[i], cv2.COLOR_BGR2RGB))
-            img.show()
-
-
+    # path = 'C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg'
+    # try:
+    #     image = Image.open(path)
+    #     uncroped_image = cv2.imread("C:/Users/23644/Pictures/Saved Pictures/feiai1.jpg")
+    #     # print(image)
+    # except:
+    #     print('Open Error! Try again!')
+    # else:
+    #     r_image, box = yolo.detect_image(image)
+    #     r_image.show()
+    #     top = box[0]
+    #     left = box[1]
+    #     bottom = box[2]
+    #     right = box[3]
+    #
+    #     top = top - 5
+    #     left = left - 5
+    #     bottom = bottom + 5
+    #     right = right + 5
+    #
+    #     # 左上角点的坐标
+    #     top = int(max(0, np.floor(top + 0.5).astype('int32')))
+    #
+    #     left = int(max(0, np.floor(left + 0.5).astype('int32')))
+    #     # 右下角点的坐标
+    #     bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
+    #     right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
+    #
+    #     # embed()
+    #
+    #     # 指定裁剪的目标范围
+    #     croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+    #     cut_image = Image.fromarray(cv2.cvtColor(croped_region, cv2.COLOR_BGR2RGB))
+    #     # cut_image.show()
+    #
+    #     # 均值滤波
+    #     img_mean = cv2.blur(croped_region, (3, 3))
+    #
+    #     # 高斯滤波
+    #     img_Guassian = cv2.GaussianBlur(croped_region, (3, 3), 0)
+    #
+    #     # 中值滤波
+    #     img_median = cv2.medianBlur(croped_region, 5)
+    #
+    #     # 双边滤波
+    #     img_bilater = cv2.bilateralFilter(croped_region, 9, 75, 75)
+    #
+    #     # 展示不同的图片
+    #     titles = ['srcImg', 'mean', 'Gaussian', 'median', 'bilateral']
+    #     imgs = [croped_region, img_mean, img_Guassian, img_median, img_bilater]
+    #
+    #     for i in range(5):
+    #         img = Image.fromarray(cv2.cvtColor(imgs[i], cv2.COLOR_BGR2RGB))
+    #         # img.show()
+    #
+    #     #     彩色图像转灰度
+    #     grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
+    #     hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
+    #     seq = []
+    #     for each in hist:
+    #         seq.append(each[0])
+    #
+    #     print(np.array(mse(seq, 2, 0.15, [1, 2, 3, 4, 5, 6, 7, 8])))
     yolo.close_session()

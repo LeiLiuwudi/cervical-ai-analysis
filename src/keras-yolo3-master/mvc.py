@@ -5,9 +5,18 @@ from flask import Flask, request, make_response, jsonify
 from flask_cors import *
 
 from cosine import cosine
+from yolo import predict, YOLO
 
 app = Flask(__name__)
-
+db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
+diseases = [
+        "正常",
+        "颈椎疲劳",
+        "颈椎劳损",
+        "颈椎间盘突出",
+        "颈椎强行性病变"
+      ]
+yolo = YOLO()
 
 @app.route('/similarRecord', methods=["POST"])
 @cross_origin()
@@ -18,7 +27,7 @@ def similarRecord():
     print(request)
     print(id)
     # 打开数据库连接
-    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
+
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
     # 使用 execute()  方法执行 SQL 查询
@@ -33,6 +42,32 @@ def similarRecord():
     result = {
         "id": docs_data[cosine(docs, base)][3],
         "name": "liulei"
+    }
+    resp = make_response(jsonify(result))
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return resp
+
+
+@app.route('/recognizeResult', methods=["POST"])
+@cross_origin()
+def recognizeResult():
+    data = json.loads(request.get_data(as_text=True))
+    id = data["id"]
+
+    cursor = db.cursor()
+    cursor.execute("select infrared_path from recognize where id=" + str(id))
+    recognize_data = cursor.fetchall()
+    infrared_path = recognize_data[0][0]
+    print(infrared_path)
+    result = predict(infrared_path, yolo)
+    sql = "update recognize set recognize_result='" + diseases[result] + "' where id=" + str(id)
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
+    result = {
+        "result": str(result)
     }
     resp = make_response(jsonify(result))
     # resp.headers['Access-Control-Allow-Origin'] = '*'

@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5fb6708-e162-4057-a644-fbad91eacf54" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/file.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/five_classification.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/similar-record/cosine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/cosine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/similar-record/mvc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/similar-record/stop.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/stop.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/similar-record/tfidf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/tfidf.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +37,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\graduationProject\cervical-ai-analysis\src\keras-yolo3-master" />
       <recent name="E:\graduationProject\cervical-ai-analysis\src\similar-record" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -49,8 +56,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.yolo">
-    <configuration name="diffdocs" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.mvc (1)">
+    <configuration name="file" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="cervical-ai-analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -58,11 +65,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/keras-yolo3-master" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/diffdocs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/keras-yolo3-master/file.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="five_classification" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="cervical-ai-analysis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/keras-yolo3-master" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/keras-yolo3-master/five_classification.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -79,11 +107,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/similar-record" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/keras-yolo3-master" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/similar-record/mvc.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -100,32 +128,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/similar-record" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="E:\graduationProject\cervical-ai-analysis\src\similar-record\mvc.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tfidf" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="cervical-ai-analysis" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="E:\graduationProject\cervical-ai-analysis\src\similar-record\tfidf.py" />
+      <option name="SCRIPT_NAME" value="E:\graduationProject\cervical-ai-analysis\src\keras-yolo3-master\mvc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -157,11 +164,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.yolo" />
         <item itemvalue="Python.mvc (1)" />
         <item itemvalue="Python.mvc" />
-        <item itemvalue="Python.diffdocs" />
-        <item itemvalue="Python.tfidf" />
+        <item itemvalue="Python.yolo" />
+        <item itemvalue="Python.file" />
+        <item itemvalue="Python.five_classification" />
       </list>
     </recent_temporary>
   </component>
