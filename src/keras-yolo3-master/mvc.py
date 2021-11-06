@@ -1,6 +1,6 @@
 import json
 import sys
-
+import datetime
 import pymysql
 from flask import Flask, request, make_response, jsonify
 from flask_cors import *
@@ -38,6 +38,12 @@ def similarRecord():
     original_data = cursor.fetchall()
     cursor.execute("select chief_complaint,present_history,past_history,id from patient where id!=" + str(id))
     docs_data = cursor.fetchall()
+    now_time = str(datetime.datetime.now()).split('.')[0]
+    now_time = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
+    sql = "insert into analysis (function, create_time) values('%s', '%s')" % ("电子病历对比分析", now_time)
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
     base = original_data[0][0] + "," + original_data[0][1] + "," + original_data[0][2]
     docs = []
     for each in docs_data:
@@ -70,6 +76,12 @@ def recognizeResult():
     print(sql)
     cursor.execute(sql)
     db.commit()
+    now_time = str(datetime.datetime.now()).split('.')[0]
+    now_time = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
+    sql = "insert into analysis (function, create_time) values('%s', '%s')" % ("病种识别结果分析", now_time)
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
     result = {
         "result": str(result)
     }
@@ -91,6 +103,12 @@ def effectEvaluation():
     cursor.execute("select infrared_path from recognize where patient_id=" + str(id))
     path_list = cursor.fetchall()
     print(path_list)
+    now_time = str(datetime.datetime.now()).split('.')[0]
+    now_time = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
+    sql = "insert into analysis (function, create_time) values('%s', '%s')" % ("治疗效果评估", now_time)
+    print(sql)
+    cursor.execute(sql)
+    db.commit()
     distanceList = []
     for ele in path_list:
         print(ele)

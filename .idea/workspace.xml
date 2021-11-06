@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c5fb6708-e162-4057-a644-fbad91eacf54" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
