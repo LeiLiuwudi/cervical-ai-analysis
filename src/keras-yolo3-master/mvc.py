@@ -1,22 +1,24 @@
 import json
+import sys
 
 import pymysql
 from flask import Flask, request, make_response, jsonify
 from flask_cors import *
 
 from cosine import cosine
-from yolo import predict, YOLO
+from yolo import predict, YOLO, getBaseMse, getEuclideanDistance
 
 app = Flask(__name__)
-db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
 diseases = [
-        "正常",
-        "颈椎疲劳",
-        "颈椎劳损",
-        "颈椎间盘突出",
-        "颈椎强行性病变"
-      ]
+    "正常",
+    "颈椎疲劳",
+    "颈椎劳损",
+    "颈椎间盘突出",
+    "颈椎强行性病变"
+]
 yolo = YOLO()
+base_array = getBaseMse("base.jpg", yolo)
+
 
 @app.route('/similarRecord', methods=["POST"])
 @cross_origin()
@@ -27,6 +29,7 @@ def similarRecord():
     print(request)
     print(id)
     # 打开数据库连接
+    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
 
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
@@ -56,6 +59,7 @@ def recognizeResult():
     data = json.loads(request.get_data(as_text=True))
     id = data["id"]
 
+    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
     cursor = db.cursor()
     cursor.execute("select infrared_path from recognize where id=" + str(id))
     recognize_data = cursor.fetchall()
@@ -68,6 +72,36 @@ def recognizeResult():
     db.commit()
     result = {
         "result": str(result)
+    }
+    resp = make_response(jsonify(result))
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return resp
+
+
+@app.route('/effectEvaluation', methods=["POST"])
+@cross_origin()
+def effectEvaluation():
+    data = json.loads(request.get_data(as_text=True))
+    id = data["id"]
+
+    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("select infrared_path from recognize where patient_id=" + str(id))
+    path_list = cursor.fetchall()
+    print(path_list)
+    distanceList = []
+    for ele in path_list:
+        print(ele)
+        try:
+            distance = getEuclideanDistance(ele[0], yolo, base_array)
+            distanceList.append(distance)
+        except IndexError:
+            distanceList.append(sys.maxsize)
+    result = {
+        "result": distanceList,
+        "count": len(path_list)
     }
     resp = make_response(jsonify(result))
     # resp.headers['Access-Control-Allow-Origin'] = '*'

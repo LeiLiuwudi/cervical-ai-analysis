@@ -179,6 +179,74 @@ class YOLO(object):
     def close_session(self):
         self.sess.close()
 
+def getBaseMse(base_path, yolo):
+    file_path = 'E:\\infraFile\\' + base_path
+    image = Image.open(file_path)
+    uncroped_image = cv2.imread(file_path)
+    r_image, box = yolo.detect_image(image)
+    top = box[0]
+    left = box[1]
+    bottom = box[2]
+    right = box[3]
+
+    top = top - 5
+    left = left - 5
+    bottom = bottom + 5
+    right = right + 5
+
+    # 左上角点的坐标
+    top = int(max(0, np.floor(top + 0.5).astype('int32')))
+
+    left = int(max(0, np.floor(left + 0.5).astype('int32')))
+    # 右下角点的坐标
+    bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
+    right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
+    croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+    grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
+    hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
+    seq = []
+    for e in hist:
+        seq.append(e[0])
+    one_d_array = np.array(mse(seq, 2, 0.15, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))
+    for i in range(len(one_d_array)):
+        if math.isinf(one_d_array[i]) or math.isnan(one_d_array[i]):
+            one_d_array[i] = 0.333
+    return one_d_array
+
+def getEuclideanDistance(path, yolo, base_array):
+    file_path = 'E:\\infraFile\\' + path
+    image = Image.open(file_path)
+    uncroped_image = cv2.imread(file_path)
+    r_image, box = yolo.detect_image(image)
+    top = box[0]
+    left = box[1]
+    bottom = box[2]
+    right = box[3]
+
+    top = top - 5
+    left = left - 5
+    bottom = bottom + 5
+    right = right + 5
+
+    # 左上角点的坐标
+    top = int(max(0, np.floor(top + 0.5).astype('int32')))
+
+    left = int(max(0, np.floor(left + 0.5).astype('int32')))
+    # 右下角点的坐标
+    bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
+    right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
+    croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+    grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
+    hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
+    seq = []
+    for e in hist:
+        seq.append(e[0])
+    one_d_array = np.array(mse(seq, 2, 0.15, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]))
+    for i in range(len(one_d_array)):
+        if math.isinf(one_d_array[i]) or math.isnan(one_d_array[i]):
+            one_d_array[i] = 0.333
+    return np.sqrt(np.sum((one_d_array - base_array) ** 2))
+
 
 def predict(path, yolo):
     file_path = 'E:\\infraFile\\' + path

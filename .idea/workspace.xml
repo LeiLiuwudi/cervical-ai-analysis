@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5fb6708-e162-4057-a644-fbad91eacf54" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/five_classification.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/yolo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/similar-record/cosine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/cosine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/similar-record/mvc.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/mvc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/similar-record/stop.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/stop.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/similar-record/tfidf.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/keras-yolo3-master/tfidf.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +73,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="five_classification" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="mse" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="cervical-ai-analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -90,7 +85,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/keras-yolo3-master/five_classification.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/keras-yolo3-master/mse.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -165,10 +160,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.mvc (1)" />
+        <item itemvalue="Python.mse" />
         <item itemvalue="Python.mvc" />
         <item itemvalue="Python.yolo" />
         <item itemvalue="Python.file" />
-        <item itemvalue="Python.five_classification" />
       </list>
     </recent_temporary>
   </component>
