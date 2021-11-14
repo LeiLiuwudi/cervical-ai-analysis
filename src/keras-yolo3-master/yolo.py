@@ -247,8 +247,7 @@ def getEuclideanDistance(path, yolo, base_array):
             one_d_array[i] = 0.333
     return np.sqrt(np.sum((one_d_array - base_array) ** 2))
 
-
-def predict(path, yolo):
+def cutImage(path, yolo):
     file_path = 'E:\\infraFile\\' + path
     image = Image.open(file_path)
     uncroped_image = cv2.imread(file_path)
@@ -271,6 +270,9 @@ def predict(path, yolo):
     bottom = int(min(np.shape(image)[0], np.floor(bottom + 0.5).astype('int32')))
     right = int(min(np.shape(image)[1], np.floor(right + 0.5).astype('int32')))
     croped_region = uncroped_image[top:bottom, left:right]  # 先高后宽
+    return croped_region
+
+def predict(croped_region):
     grey_image = cv2.cvtColor(croped_region, cv2.COLOR_BGR2GRAY)
     hist = cv2.calcHist([grey_image], [0], None, [256], [0, 256])
     seq = []

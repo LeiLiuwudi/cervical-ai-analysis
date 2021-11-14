@@ -1,12 +1,16 @@
+import base64
 import json
 import sys
 import datetime
+
+import cv2
 import pymysql
-from flask import Flask, request, make_response, jsonify
+from PIL import Image
+from flask import Flask, request, make_response, jsonify, Response
 from flask_cors import *
 
 from cosine import cosine
-from yolo import predict, YOLO, getBaseMse, getEuclideanDistance
+from yolo import predict, YOLO, getBaseMse, getEuclideanDistance, cutImage
 
 app = Flask(__name__)
 diseases = [
@@ -58,6 +62,32 @@ def similarRecord():
     resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return resp
 
+@app.route('/cutResult', methods=["POST"])
+@cross_origin()
+def cutResult():
+    data = json.loads(request.get_data(as_text=True))
+    id = data["id"]
+
+    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("select infrared_path from recognize where id=" + str(id))
+    recognize_data = cursor.fetchall()
+    infrared_path = recognize_data[0][0]
+    print(infrared_path)
+    croped_region = cutImage(infrared_path, yolo)
+    base64_str = cv2.imencode('.jpg',croped_region)[1].tostring()
+    base64_str = base64.b64encode(base64_str).decode()
+    # cut_image = croped_region.tobytes()
+    # img_stream = base64.b64encode(cut_image).decode()
+
+    result = {
+        "result": base64_str
+    }
+    resp = make_response(jsonify(result))
+    # resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return resp
 
 @app.route('/recognizeResult', methods=["POST"])
 @cross_origin()
@@ -71,7 +101,8 @@ def recognizeResult():
     recognize_data = cursor.fetchall()
     infrared_path = recognize_data[0][0]
     print(infrared_path)
-    result = predict(infrared_path, yolo)
+    croped_region = cutImage(infrared_path, yolo)
+    result = predict(croped_region)
     sql = "update recognize set recognize_result='" + diseases[result] + "' where id=" + str(id)
     print(sql)
     cursor.execute(sql)
