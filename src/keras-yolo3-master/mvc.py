@@ -11,6 +11,7 @@ from flask_cors import *
 
 from cosine import cosine
 from yolo import predict, YOLO, getBaseMse, getEuclideanDistance, cutImage
+from cos_staut import cos_staut
 
 app = Flask(__name__)
 diseases = [
@@ -148,9 +149,11 @@ def effectEvaluation():
             distanceList.append(distance)
         except IndexError:
             distanceList.append(sys.maxsize)
+    trend = cos_staut(distanceList)
     result = {
         "result": distanceList,
-        "count": len(path_list)
+        "count": len(path_list),
+        "trend": trend
     }
     resp = make_response(jsonify(result))
     # resp.headers['Access-Control-Allow-Origin'] = '*'
