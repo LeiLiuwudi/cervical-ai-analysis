@@ -130,17 +130,12 @@ def effectEvaluation():
     data = json.loads(request.get_data(as_text=True))
     id = data["id"]
 
-    db = pymysql.connect("10.115.113.58", "root", "lab205", "cervical_spondy_medical", charset="utf8")
+    db = pymysql.connect(host = "10.115.113.58", user = "root", password = "lab205", database = "cervical_spondy_medical", charset="utf8")
     cursor = db.cursor()
     cursor.execute("select infrared_path from recognize where patient_id=" + str(id))
     path_list = cursor.fetchall()
     print(path_list)
-    now_time = str(datetime.datetime.now()).split('.')[0]
-    now_time = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
-    sql = "insert into analysis (function, create_time) values('%s', '%s')" % ("治疗效果评估", now_time)
-    print(sql)
-    cursor.execute(sql)
-    db.commit()
+
     distanceList = []
     for ele in path_list:
         print(ele)
@@ -155,6 +150,17 @@ def effectEvaluation():
         "count": len(path_list),
         "trend": trend
     }
+
+    now_time = str(datetime.datetime.now()).split('.')[0]
+    now_time = datetime.datetime.strptime(now_time, '%Y-%m-%d %H:%M:%S')
+    sql = "insert into analysis (function, evaluation_result, patient_id, create_time) values('%s', '%s', '%d', '%s')" % (
+    "治疗效果评估", json.dumps(result), id, now_time)
+    print(sql)
+    cursor.execute(sql)
+    record_id = db.insert_id()
+    db.commit()
+
+    result["record_id"] = record_id
     resp = make_response(jsonify(result))
     # resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Methods'] = 'POST'
