@@ -29,9 +29,9 @@ from keras.utils import multi_gpu_model
 
 class YOLO(object):
     _defaults = {
-        "model_path": '/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/logs/trained_weights_final.h5',
-        "anchors_path": '/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/model_data/yolo_anchors.txt',
-        "classes_path": '/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/model_data/my_class.txt',
+        "model_path": 'D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/logs/trained_weights_final.h5',
+        "anchors_path": 'D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/model_data/yolo_anchors.txt',
+        "classes_path": 'D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/model_data/my_class.txt',
         "score": 0.3,
         "iou": 0.45,
         "model_image_size": (416, 416),
@@ -136,7 +136,7 @@ class YOLO(object):
 
         # print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
 
-        font = ImageFont.truetype(font='/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/font/FiraMono-Medium.otf',
+        font = ImageFont.truetype(font='D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/font/FiraMono-Medium.otf',
                                   size=np.floor(3e-2 * image1.size[1] + 0.5).astype('int32'))
         thickness = (image1.size[0] + image1.size[1]) // 300
 
@@ -182,7 +182,7 @@ class YOLO(object):
 #%%
 yolo = YOLO()
 # base = 'E:\\graduationProject\\VGG16_TF-master\\data\\dataset\\all'
-base = '/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/dataset/all'
+base = 'D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/dataset/all'
 allFile = findAllFile(base)
 X = []
 count = [0, 0, 0, 0, 0]
@@ -267,7 +267,7 @@ n_samples, n_features = X.shape
 X_train, X_test, y_train, y_test = train_test_split(X, Y, random_state=0)
 model = svm.LinearSVC()
 clt = model.fit(X_train, y_train)
-joblib.dump(model, '/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/model_attempt/mlp_test/model_trained/svm.pkl')
+joblib.dump(model, 'D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/model_attempt/mlp_test/model_trained/svm.pkl')
 print("train accuracy:", model.score(X_test, y_test))
 
 # %%
@@ -291,6 +291,45 @@ y_train_onehot = to_categorical(y_train, num_classes = 5)
 y_test_onehot = to_categorical(y_test, num_classes = 5)
 
 #%%
+from keras.callbacks import Callback
+class LossHistory(Callback):
+    def on_train_begin(self, logs={}):
+        self.losses = {'batch': [], 'epoch': []}
+        self.accuracy = {'batch': [], 'epoch': []}
+        self.val_loss = {'batch': [], 'epoch': []}
+        self.val_acc = {'batch': [], 'epoch': []}
+
+    def on_batch_end(self, batch, logs={}):
+        self.losses['batch'].append(logs.get('loss'))
+        self.accuracy['batch'].append(logs.get('acc'))
+        self.val_loss['batch'].append(logs.get('val_loss'))
+        self.val_acc['batch'].append(logs.get('val_acc'))
+
+    def on_epoch_end(self, batch, logs={}):
+        self.losses['epoch'].append(logs.get('loss'))
+        self.accuracy['epoch'].append(logs.get('acc'))
+        self.val_loss['epoch'].append(logs.get('val_loss'))
+        self.val_acc['epoch'].append(logs.get('val_acc'))
+
+    def loss_plot(self, loss_type):
+        iters = range(len(self.losses[loss_type]))
+        plt.figure()
+        # acc
+        # plt.plot(iters, self.accuracy[loss_type], 'r', label='train acc')
+        # loss
+        plt.plot(iters, self.losses[loss_type], 'g', label='train loss')
+        # if loss_type == 'epoch':
+        #     # val_acc
+        #     plt.plot(iters, self.val_acc[loss_type], 'b', label='val acc')
+        #     # val_loss
+        #     plt.plot(iters, self.val_loss[loss_type], 'k', label='val loss')
+        plt.grid(True)
+        plt.xlabel(loss_type)
+        plt.ylabel('acc-loss')
+        plt.legend(loc="upper right")
+        plt.show()
+
+#%%
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout
 mlp = Sequential()
@@ -303,13 +342,15 @@ mlp.add(Dense(5, activation='sigmoid'))
 mlp.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
+history = LossHistory()
 mlp.fit(X_train, y_train_onehot,
-          epochs=50,
-          batch_size=32)
+          epochs=80,
+          batch_size=32,
+        callbacks=[history])
 score = mlp.evaluate(X_test, y_test_onehot, batch_size=32)
 print("test_acc: " + str(score[1]))
-
+history.loss_plot('epoch')
 
 # %%
-mlp.save('/ext/tianpeng/Lab205/cervical-ai-analysis/src/keras-yolo3-master/model_attempt/mlp_test/model_trained/mlp.h5')
+mlp.save('D:/Repositories/cervical-ai-analysis/src/keras-yolo3-master/model_attempt/mlp_test/model_trained/mlp.h5')
 # %%
